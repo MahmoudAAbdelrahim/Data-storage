@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاكواد</title>
+
+<style>
+body{
+    background-color: rgb(47, 69, 105);
+}
+.crud{
+    width: 100%;
+    margin: auto;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-top: 100px;
+}
+input{
+    width: 90%;
+    height: 30px;
+    outline: none;
+    border: none;
+    background-color:rgb(183, 183, 183) ;
+    text-align: center;
+font-size: 28px;
+    color:rgb(255, 255, 255);
+    margin: 4px 0;
+    border-radius: 8px;
+    padding: 6px;
+
+}
+input:focus{
+    background-color: rgb(19, 19, 19);
+    transform: scale(1.1);
+}
+.price input{
+    width: 90%;
+  
+}
+#totel{
+    background-color:rgb(134, 130, 130) ;
+    color:rgb(255, 255, 255);
+    padding: 6px 4px;
+
+
+}
+#totel::before{
+    content: 'Total:  ';
+}
+button{
+    width: 80%;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    background-color:rgb(106, 97, 97) ;
+    color:rgb(255, 255, 255); 
+    border-radius: 30px;
+    font-size: 25px;
+    transition: 0.3s;
+
+}
+button:hover{
+    background-color: rgb(167, 40, 40);
+    letter-spacing: 3px;
+    font-size: 20px;
+}
+
+table{
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+}
+
+</style>
+
+</head>
+<body>
+
+
+<div class="crud">
+       
+   
+    <div class="input">
+        <input placeholder="الاسم" type="text" id="title">
+        <div class="price">
+            <input onkeyup="gettotal()" type="number" id="price" placeholder="الرقم">
+        
+        
+        
+        </div>    
+    <!-- <small  id="totel">2006</small>   <input placeholder="count" type="number" id="count" >-->
+        <input placeholder="الكود" type="text" id="category">
+        <button id="submit">حفظ</button>
+   </div>
+    <table id="table">
+  
+ 
+    <tr>
+        <th> iD </th>
+    <th> الاسم  </th>
+    <th >الرقم </th>
+
+
+    
+    <th> الكود</th>
+    
+
+    </tr>
+
+
+<tbody id="tbody">
+<tr>
+
+</tr>
+
+</tbody>
+
+</table>
+</div>
+
+</div>
+    <script >
+
+
+
+
+
+// @ts-nocheck
+
+let title =document.getElementById('title');
+let price =document.getElementById('price');
+let discount =document.getElementById('discount');
+let totel =document.getElementById('totel');
+let count =document.getElementById('count');
+let category =document.getElementById('category');
+let submit =document.getElementById('submit');
+
+
+
+function gettotal() {
+    if(price.value != ''){
+        let result = (+price.value) - +discount.value;
+    totel.innerHTML = result;
+    totel.style.background = '#040';
+
+}else{
+    totel.innerHTML ='';
+    totel.style.background = 'red';
+  }   
+}
+
+
+
+let datapro
+if(
+    localStorage.product != null)
+    {
+        datapro = JSON.parse(localStorage.product)
+    }else{ 
+        datapro = [];
+    }
+
+    submit.onclick = function(){
+        let newpro = {
+            title:title.value,
+            price:price.value,
+            
+            category:category.value,
+            }
+            if( newpro.count > 1){
+                for(let i = 0; i < newpro.count;i++){
+                    datapro.push(newpro);
+                }
+            }else{
+                datapro.push(newpro);
+
+            }
+            localStorage.setItem('product', JSON.stringify(datapro))
+            cleardeta()
+            showData()
+    }
+
+
+
+function cleardeta(){
+    // @ts-ignore
+    title.value = '';
+    price.value = '';
+    category.value = '';
+}
+
+function showData(){
+    let table = '';
+    for(let i = 0; i < datapro.length;i++){
+        table += ` 
+        <tr>
+            
+        <td>${i}</td>
+        <td>${datapro[i].title}</td>
+        <td>${datapro[i].price}</td>
+    
+        <td>${datapro[i].category}</td>
+        
+    
+        </tr>
+        `
+    }
+// @ts-ignore
+document.getElementById('tbody').innerHTML = table;
+
+}showData()
+
+
+    </script>
+</body>
+</html>
